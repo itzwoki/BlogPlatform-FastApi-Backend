@@ -2,6 +2,8 @@ from fastapi import FastAPI
 
 from db.db_setup import engine
 from db.models import comment, post, user
+from userRoutes.auth import router as UserRouter
+from postRoutes.post import router as PostRouter
 
 
 user.Base.metadata.create_all(bind=engine)
@@ -22,3 +24,5 @@ license_info={
 }
 )
 
+app.include_router(UserRouter)
+app.include_router(PostRouter)
