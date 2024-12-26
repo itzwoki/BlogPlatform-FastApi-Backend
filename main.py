@@ -4,6 +4,7 @@ from db.db_setup import engine
 from db.models import comment, post, user
 from userRoutes.auth import router as UserRouter
 from postRoutes.post import router as PostRouter
+from commentRoutes.comment import router as CommentRouter
 
 
 user.Base.metadata.create_all(bind=engine)
@@ -26,3 +27,4 @@ license_info={
 
 app.include_router(UserRouter)
 app.include_router(PostRouter)
+app.include_router(CommentRouter)

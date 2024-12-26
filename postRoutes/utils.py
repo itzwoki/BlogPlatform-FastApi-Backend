@@ -20,7 +20,7 @@ def create_post(db: Session, post_data: PostCreate, user_id: int):
     return new_post
 
 async def get_posts(db: Session, skip: int = 0, limit: int = 10) -> List[Post]:
-    posts = db.query(Post). offset(skip).limit(limit).all()
+    posts = db.query(Post).offset(skip).limit(limit).all()
     return posts
 
 async def get_post(db:Session, post_id: int):
