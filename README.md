@@ -95,25 +95,6 @@ Technologies Used
 - PostgreSQL: For database management.
 - JWT: For user authentication and authorization.
 - SQLAlchemy: For interacting with the PostgreSQL database.
-
-Setup
-
-Prerequisites
-
-- Python 3.7+
-- PostgreSQL installed and running
-
-Installation
-
-1. Clone the repository:
-   git clone https://github.com/your-username/blog-platform.git
-
-2. Install dependencies:
-   cd blog
-   pip install -r requirements.txt
-
-3. Set up the PostgreSQL database:
-   - Create a database for the application.
  
 
 4. Run the application:
@@ -123,6 +104,6 @@ Installation
 
 Testing
 
-You can test the API using tools like Postman or Insomnia. Use the JWT token obtained from the login route for authenticated requests.
+You can test the API using tools like Postman. Use the JWT token obtained from the login route for authenticated requests.
 
 
