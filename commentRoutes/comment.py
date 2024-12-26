@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from pydantic_schemas.comment import CommentCreate, CommentResponse, CommentUpdate
 from db.db_setup import get_db
 from dependencies.current_user import get_current_user
-from commentRoutes.utils import create_comment, get_all_comments, update_comment
+from commentRoutes.utils import create_comment, get_all_comments, update_comment, del_comment
 
 router=APIRouter(prefix="/comment")
 
@@ -50,3 +50,17 @@ async def comment_update(
     user_id = current_user.id
     comment = await update_comment(db, comment_id, comment_data, user_id)
     return comment
+
+#delete comment
+@router.delete("/{comment_id}")
+async def delete_comment(
+    comment_id: int,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user)
+):
+    user_id = current_user.id
+    await del_comment(db, comment_id, user_id)
+
+    return{
+        "message" : "Deleted!."
+    }

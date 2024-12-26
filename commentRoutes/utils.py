@@ -42,3 +42,18 @@ async def update_comment(db: Session, comment_id: int, comment_data: CommentUpda
     db.refresh(comment)
 
     return comment
+
+async def del_comment(db:Session, comment_id: int, user_id: int):
+    comment = db.query(Comment).filter(Comment.id == comment_id).first()
+
+    if not comment:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Comment Not Found."
+        )
+    if comment.author_id != user_id:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Not Allowed."
+        )
+    
+    db.delete(comment)
+    db.commit()
