@@ -179,6 +179,7 @@ Login Example:
 
 {
     "username": "example_user",
+    
     "password": "password123"
 }
 
@@ -219,7 +220,9 @@ Content-Type: application/json
 
 {
     "username": "new_user",
+    
     "email": "newuser@example.com",
+    
     "password": "password123"
 }
 
@@ -231,6 +234,7 @@ Content-Type: application/json
 
 {
     "username": "new_user",
+    
     "password": "password123"
 }
 
@@ -243,13 +247,16 @@ Content-Type: application/json
 
 {
     "title": "My First Post",
+    
     "content": "This is the content of the post."
 }
 
 **Create a comment on a post:**
 
 POST /comment/{post_id}
+
 Authorization: Bearer <your_access_token>
+
 Content-Type: application/json
 {
     "content": "This is a comment."
