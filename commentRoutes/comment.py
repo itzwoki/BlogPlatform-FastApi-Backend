@@ -6,9 +6,11 @@ from sqlalchemy.orm import Session
 from pydantic_schemas.comment import CommentCreate, CommentResponse, CommentUpdate
 from db.db_setup import get_db
 from dependencies.current_user import get_current_user
-from commentRoutes.utils import create_comment, get_all_comments, update_comment, del_comment
+from commentRoutes.utils import create_comment, get_all_comments, update_comment, del_comment, get_comments, like
 
 router=APIRouter(prefix="/comment")
+
+#Make a cmnt on a Post
 
 @router.post("/{post_id}", response_model=CommentResponse)
 async def create_new_comment(
@@ -64,3 +66,30 @@ async def delete_comment(
     return{
         "message" : "Deleted!."
     }
+
+# get all comments made by a specific user
+
+@router.get("/user-comments", response_model=List[CommentResponse])
+async def get_all_user_comments(
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user)
+):
+    user_id = current_user.id
+    comments = await get_comments(db, user_id)
+    return comments
+
+# Like a comment
+
+@router.patch("/likes/{comment_id}", response_model=CommentResponse)
+async def like_comment(
+        comment_id: int,
+        db: Session = Depends(get_db),
+        current_user : dict =  Depends(get_current_user)
+):
+    if not current_user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Not Allowed."
+        )
+    
+    liked_comment =await like(db, comment_id)
+    return liked_comment

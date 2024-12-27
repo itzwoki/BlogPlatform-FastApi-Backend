@@ -1,12 +1,17 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, status
 
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 from passlib.context import CryptContext
 
 from db.db_setup import get_db
 from db.models.user import User
-from pydantic_schemas.user import UserCreate, UserLogin
+from db.models.post import Post
+from db.models.comment import Comment
+from pydantic_schemas.user import UserCreate, UserLogin, userDetails
 from .utils.loginutil import verify_password, create_access_token
+from dependencies.current_user import get_current_user
+
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
@@ -50,3 +55,37 @@ async def login(user:UserLogin, db: Session = Depends(get_db)):
     
     access_token = create_access_token(data={"sub": str(db_user.id)})
     return {"access_token": access_token, "token_type": "bearer"}
+
+
+@router.get("/user-details", response_model=userDetails)
+async def get_user_details(
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user)
+):
+    user_id = current_user.id
+
+    user = db.query(User).filter(User.id == user_id).first()
+
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Not Authorized."
+        )
+    
+    posts_count = (
+        db.query(func.count(Post.id))
+        .filter(Post.author_id == user_id)
+        .scalar()
+    )
+
+    total_likes = (
+        db.query(func.count(Comment.likes))
+        .filter(Comment.author_id == user_id)
+        .scalar() or 0
+    )
+
+    return {
+        "username" : user.username,
+        "email" : user.email,
+        "posts_count" : posts_count,
+        "total_likes" : total_likes
+    }

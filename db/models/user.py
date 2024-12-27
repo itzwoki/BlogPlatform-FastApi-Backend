@@ -14,4 +14,4 @@ class User(TimeStamp, Base):
 
     #Relationship with Post and Comment tables
     posts = relationship("Post", back_populates="author")
-    comments =  relationship("Comment", back_populates="author")
+    comments =  relationship("Comment", back_populates="author") 

@@ -12,6 +12,7 @@ class CommentUpdate(BaseModel):
 class CommentResponse(CommentCreate):
     id: int
     author_id : int
+    likes: int
     created_at: datetime
     updated_at: datetime
 

@@ -57,3 +57,31 @@ async def del_comment(db:Session, comment_id: int, user_id: int):
     
     db.delete(comment)
     db.commit()
+
+async def get_comments(db:Session, user_id: int) -> List[Comment]:
+    comments = db.query(Comment).filter(Comment.author_id == user_id).all()
+
+    if not comments:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Comment Not Found."
+        )
+    return comments
+
+async def like(db: Session, comment_id: int):
+    comment = db.query(Comment).filter(Comment.id == comment_id).first()
+    
+
+    if not comment:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Comment not found."
+        )
+    
+    comment.likes += 1
+    
+    db.commit()
+    db.refresh(comment)
+    
+
+    return comment
+
+    

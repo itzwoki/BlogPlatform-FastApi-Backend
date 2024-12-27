@@ -17,5 +17,11 @@ class UserResponse(BaseModel):
     email : EmailStr
     created_at : datetime
 
+class userDetails(BaseModel):
+    username: str
+    email:  EmailStr
+    posts_count: int
+    total_likes: int
+    
     class Config():
-        orm_mode = True
+        orm_mode = True 
