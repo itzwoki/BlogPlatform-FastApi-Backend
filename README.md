@@ -143,7 +143,9 @@ Example Usage:
 
 **Register a new user:**
 POST /auth/signup
+
 Content-Type: application/json
+
 {
     "username": "new_user",
     "email": "newuser@example.com",
@@ -151,8 +153,11 @@ Content-Type: application/json
 }
 
 **Log in with credentials:**
+
 POST /auth/login
+
 Content-Type: application/json
+
 {
     "username": "new_user",
     "password": "password123"
@@ -160,8 +165,11 @@ Content-Type: application/json
 
 **Create a post:**
 POST /post/create-post
+
 Authorization: Bearer <your_access_token>
+
 Content-Type: application/json
+
 {
     "title": "My First Post",
     "content": "This is the content of the post."
