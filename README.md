@@ -56,6 +56,7 @@ Passlib: For password hashing and verification.
 SQLAlchemy Mixin: For handling timestamps (created_at, updated_at).
 
 Models and Schemas
+
 **1. User Model (Database)**
 
 Fields:
@@ -264,6 +265,9 @@ POST /comment/{post_id}
 Authorization: Bearer <your_access_token>
 
 Content-Type: application/json
+
 {
+
     "content": "This is a comment."
+    
 }
